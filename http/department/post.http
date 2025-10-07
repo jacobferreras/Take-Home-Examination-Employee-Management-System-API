@@ -1,0 +1,7 @@
+// Create a new department
+POST http://localhost:8080/api/departments/create
+Content-Type: application/json
+
+{
+  "name": "IT Department"
+}
