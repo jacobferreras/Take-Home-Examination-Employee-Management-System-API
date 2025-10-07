@@ -1,5 +1,5 @@
 import { Router } from "express";
-import * as positionController from "../controller/positionController";
+import * as positionController from "../controllers/positionController";
 
 const router = Router();
 

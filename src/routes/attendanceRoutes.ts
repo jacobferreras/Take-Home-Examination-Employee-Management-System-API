@@ -1,5 +1,5 @@
 import { Router } from "express";
-import * as attendanceController from "../controller/attendanceController";
+import * as attendanceController from "../controllers/attendanceController";
 
 const router = Router();
 
