@@ -42,11 +42,21 @@ export const getAllDepartments = async (
   next: NextFunction
 ) => {
   try {
-    // TODO: Implement logic to get all departments.
-    // 1. Query the 'departments' collection.
-    // 2. Return an array of departments with a 200 status.
-    res.status(501).json({ message: "Not Implemented" });
+    const departmentsSnapshot = await getDb().collection("departments").get();
+
+    const departments = departmentsSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    res.status(200).json({
+      success: true,
+      message: "Departments retrieved successfully",
+      data: departments,
+    });
   } catch (error) {
+    console.error("Error fetching departments:", error);
+    res.status(500).json({ message: "Internal Server Error" });
     next(error);
   }
 };
@@ -57,13 +67,24 @@ export const getDepartmentById = async (
   next: NextFunction
 ) => {
   try {
-    // TODO: Implement logic to get a single department by its ID.
-    // 1. Get department ID from req.params.
-    // 2. Fetch the document from Firestore.
-    // 3. If not found, return 404.
-    // 4. Return the department data with a 200 status.
-    res.status(501).json({ message: "Not Implemented" });
+    const { id } = req.params;
+
+    const departmentDoc = await getDb().collection("departments").doc(id).get();
+
+    if (!departmentDoc.exists) {
+      return res.status(404).json({ message: "Department not found" });
+    }
+
+    const department = { id: departmentDoc.id, ...departmentDoc.data() };
+
+    res.status(200).json({
+      success: true,
+      message: "Department retrieved successfully",
+      data: department,
+    });
   } catch (error) {
+    console.error("Error fetching department:", error);
+    res.status(500).json({ message: "Internal Server Error" });
     next(error);
   }
 };
@@ -74,12 +95,31 @@ export const updateDepartment = async (
   next: NextFunction
 ) => {
   try {
-    // TODO: Implement logic to update a department.
-    // 1. Get department ID from req.params and 'name' from req.body.
-    // 2. Update the document in Firestore.
-    // 3. Return the updated department data with a 200 status.
-    res.status(501).json({ message: "Not Implemented" });
+    const { id } = req.params;
+    const { name } = req.body;
+
+    if (!name) {
+      return res.status(400).json({ message: "Department name is required" });
+    }
+
+    const departmentDoc = await getDb().collection("departments").doc(id).get();
+
+    if (!departmentDoc.exists) {
+      return res.status(404).json({ message: "Department not found" });
+    }
+
+    await getDb().collection("departments").doc(id).update({ name });
+
+    const updatedDepartment = { id, name };
+
+    res.status(200).json({
+      success: true,
+      message: "Department updated successfully",
+      data: updatedDepartment,
+    });
   } catch (error) {
+    console.error("Error updating department:", error);
+    res.status(500).json({ message: "Internal Server Error" });
     next(error);
   }
 };
@@ -90,12 +130,23 @@ export const deleteDepartment = async (
   next: NextFunction
 ) => {
   try {
-    // TODO: Implement logic to delete a department.
-    // 1. Get department ID from req.params.
-    // 2. Delete the document from Firestore.
-    // 3. Return a 204 No Content status.
-    res.status(501).json({ message: "Not Implemented" });
+    const { id } = req.params;
+
+    const departmentDoc = await getDb().collection("departments").doc(id).get();
+
+    if (!departmentDoc.exists) {
+      return res.status(404).json({ message: "Department not found" });
+    }
+
+    await getDb().collection("departments").doc(id).delete();
+
+    res.status(204).send({
+      success: true,
+      message: "Department deleted successfully",
+    });
   } catch (error) {
+    console.error("Error deleting department:", error);
+    res.status(500).json({ message: "Internal Server Error" });
     next(error);
   }
 };
