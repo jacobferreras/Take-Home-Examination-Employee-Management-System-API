@@ -1,6 +1,5 @@
 // Update a department by ID
-PUT http://localhost:8080/api/departments/update/jHafdpeULcsvrG6xqUCX
-Content-Type: application/json
+PUT http://localhost:8080/api/departments/update/{id}
 
 {
   "name": "Updated IT Department"

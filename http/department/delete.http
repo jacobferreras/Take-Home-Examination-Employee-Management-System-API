@@ -1,3 +1,3 @@
 // Delete a department by ID
-DELETE http://localhost:8080/api/departments/delete/7hx24CSmuaKRlgQM59DB
+DELETE http://localhost:8080/api/departments/delete/{id}
 Content-Type: application/json
