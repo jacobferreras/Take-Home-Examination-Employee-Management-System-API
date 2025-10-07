@@ -140,10 +140,7 @@ export const deleteDepartment = async (
 
     await getDb().collection("departments").doc(id).delete();
 
-    res.status(204).send({
-      success: true,
-      message: "Department deleted successfully",
-    });
+    res.status(204).json();
   } catch (error) {
     console.error("Error deleting department:", error);
     res.status(500).json({ message: "Internal Server Error" });
