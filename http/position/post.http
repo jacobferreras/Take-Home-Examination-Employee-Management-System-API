@@ -1,0 +1,8 @@
+// Create a new position
+POST http://localhost:8080/api/positions/create
+Content-Type: application/json
+
+{
+  "title": "Software Engineer",
+  "departmentId": "36eL32Ass8WtbPJrxBt9"
+}

@@ -1,0 +1,8 @@
+// Get all positions
+GET http://localhost:8080/api/positions/getAll
+Content-Type: application/json
+
+###
+// Get a single position by ID
+GET http://localhost:8080/api/positions/getById/{id}
+Content-Type: application/json

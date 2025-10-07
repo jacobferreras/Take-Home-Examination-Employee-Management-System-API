@@ -15,7 +15,7 @@ export const createPosition = async (
         .json({ message: "Title and Department ID are required" });
     }
 
-    const positionData = await getDb().collection("positons").add({
+    const positionData = await getDb().collection("positions").add({
       title,
       departmentId,
       createdAt: new Date(),

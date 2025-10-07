@@ -1,0 +1,8 @@
+// Update an existing position by ID
+PUT http://localhost:8080/api/positions/update/{id}
+Content-Type: application/json
+
+{
+  "title": "Senior Software Engineer",
+  "departmentId": "36eL32Ass8WtbPJrxBt9"
+}
