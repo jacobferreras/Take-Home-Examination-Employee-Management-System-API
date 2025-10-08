@@ -137,7 +137,6 @@ export const updateEmployee = async (
 
     const updatedEmployee = {
       id: employeeDoc.id,
-      ...employeeDoc.data(),
       ...updateData,
     };
 
