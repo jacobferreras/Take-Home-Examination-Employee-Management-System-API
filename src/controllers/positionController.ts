@@ -104,7 +104,7 @@ export const updatePosition = async (
 
     if (!title && !departmentId) {
       return res.status(400).json({
-        message: "At least one of Title or Department ID is required",
+        message: "At least one field (title or departmentId) is required",
       });
     }
 
@@ -114,12 +114,19 @@ export const updatePosition = async (
       return res.status(404).json({ message: "Position not found" });
     }
 
-    await getDb().collection("positions").doc(id).update({
-      title,
-      departmentId,
-    });
+    const currentPosition = positionDoc.data();
+    const updateData: { title?: string; departmentId?: string } = {};
 
-    const updatedPosition = { id, title, departmentId };
+    if (title) updateData.title = title;
+    if (departmentId) updateData.departmentId = departmentId;
+
+    await getDb().collection("positions").doc(id).update(updateData);
+
+    const updatedPosition = {
+      id,
+      ...currentPosition,
+      ...updateData,
+    };
 
     res.status(200).json({
       success: true,

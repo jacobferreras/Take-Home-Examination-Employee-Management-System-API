@@ -135,7 +135,7 @@ export const updateEmployee = async (
     const { id } = req.params;
     const updateData = { ...req.body, updatedAt: new Date() };
 
-    if (Object.keys(updateData).length === 0) {
+    if (Object.keys(updateData).length === 1) {
       return res.status(400).json({ message: "No fields to update" });
     }
 
