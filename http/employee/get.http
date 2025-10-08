@@ -9,5 +9,5 @@ Content-Type: application/json
 
 ###
 // Get Employee Attendance Records
-GET http://localhost:8080/api/employees/EMP-LQI0HL/attendance
+GET http://localhost:8080/api/employees/EMP-GPKPOT/attendance
 Content-Type: application/json

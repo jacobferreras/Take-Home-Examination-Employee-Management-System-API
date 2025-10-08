@@ -13,13 +13,13 @@ export const createDepartment = async (
       return res.status(400).json({ message: "Department name is required" });
     }
 
-    const departmentData = await getDb().collection("departments").add({
+    const departmentRef = await getDb().collection("departments").add({
       name,
       createdAt: new Date(),
     });
 
     const newDepartment = {
-      id: departmentData.id,
+      id: departmentRef.id,
       name,
       createdAt: new Date(),
     };

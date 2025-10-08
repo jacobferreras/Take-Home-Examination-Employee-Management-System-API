@@ -3,6 +3,6 @@ POST http://localhost:8080/api/positions/create
 Content-Type: application/json
 
 {
-  "title": "Software Engineer",
+  "title": "HR Manager",
   "departmentId": "36eL32Ass8WtbPJrxBt9"
 }
