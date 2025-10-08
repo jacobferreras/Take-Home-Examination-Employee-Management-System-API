@@ -1,0 +1,12 @@
+// Create Employee
+POST http://localhost:8080/api/employees/create
+Content-Type: application/json
+
+
+{
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@example.com",
+    "positionId": "5pY9hjg4kfbbZ6bFID9e",
+    "departmentId": "36eL32Ass8WtbPJrxBt9"
+}

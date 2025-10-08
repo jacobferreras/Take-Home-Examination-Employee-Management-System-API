@@ -1,0 +1,7 @@
+// Update Employee Details by ID
+PUT http://localhost:8080/api/employees/update/{id}
+Content-Type: application/json
+
+{
+    "firstName": "James"
+}

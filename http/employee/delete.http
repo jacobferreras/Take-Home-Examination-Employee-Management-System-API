@@ -1,0 +1,3 @@
+// Delete Employee by ID
+DELETE http://localhost:8080/api/employees/delete/z2fWjrYpPvjCOQatwFad
+Content-Type: application/json

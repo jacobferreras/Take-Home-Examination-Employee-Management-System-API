@@ -1,0 +1,8 @@
+//Get all employees
+GET http://localhost:8080/api/employees/getAll
+Content-Type: application/json
+
+###
+// Get Employee by ID
+GET http://localhost:8080/api/employees/getById/z2fWjrYpPvjCOQatwFad
+Content-Type: application/json
