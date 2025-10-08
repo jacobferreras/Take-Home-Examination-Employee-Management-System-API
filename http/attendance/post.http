@@ -1,0 +1,17 @@
+// Record Time In
+POST http://localhost:8080/api/attendance/time-in
+Content-Type: application/json
+
+{
+    "employeeId": "EMP-LQI0HL"
+}
+
+###
+
+// Record Time Out
+POST http://localhost:8080/api/attendance/time-out
+Content-Type: application/json
+
+{
+    "employeeId": "EMP-LQI0HL"
+}

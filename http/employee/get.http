@@ -6,3 +6,8 @@ Content-Type: application/json
 // Get Employee by ID
 GET http://localhost:8080/api/employees/getById/{id}
 Content-Type: application/json
+
+###
+// Get Employee Attendance Records
+GET http://localhost:8080/api/employees/EMP-LQI0HL/attendance
+Content-Type: application/json

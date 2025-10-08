@@ -5,6 +5,7 @@ dotenv.config();
 import departmentRouter from "./routes/departmentRoutes";
 import positionRouter from "./routes/positionRoutes";
 import employeeRouter from "./routes/employeeRoutes";
+import attendanceRouter from "./routes/attendanceRoutes";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use("/api/departments", departmentRouter);
 app.use("/api/positions", positionRouter);
 app.use("/api/employees", employeeRouter);
+app.use("/api/attendance", attendanceRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

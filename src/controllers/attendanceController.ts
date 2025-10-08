@@ -23,20 +23,38 @@ export const timeIn = async (
 ) => {
   try {
     const { employeeId } = req.body;
+
     if (!employeeId) {
       return res.status(400).json({ message: "employeeId is required." });
     }
 
-    // TODO: Implement Time-In logic.
-    // 1. Find the employee's document using the helper function `findEmployeeByCustomId`.
-    // 2. If employee not found, return 404.
-    // 3. Create a new attendance record in the 'attendance' subcollection of that employee.
-    //    - type: 'time-in'
-    //    - timestamp: firestore.Timestamp.now()
-    //    - location: 'BGC, Taguig City Office'
-    // 4. Return a success message with a 201 status.
-    res.status(501).json({ message: "Not Implemented" });
+    const employeeDoc = await findEmployeeByCustomId(employeeId);
+
+    if (!employeeDoc) {
+      return res.status(404).json({ message: "Employee not found." });
+    }
+
+    const attendanceRef = employeeDoc.ref.collection("attendance");
+
+    const attendanceRecord = await attendanceRef.add({
+      type: "time-in",
+      timestamp: firestore.Timestamp.now(),
+      location: "BGC, Taguig City Office",
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "Time-In recorded successfully.",
+      data: {
+        id: attendanceRecord.id,
+        type: "time-in",
+        location: "BGC, Taguig City Office",
+        timestamp: firestore.Timestamp.now(),
+      },
+    });
   } catch (error) {
+    console.error("Error recording time-in:", error);
+    res.status(500).json({ message: "Internal Server Error" });
     next(error);
   }
 };
@@ -52,10 +70,33 @@ export const timeOut = async (
       return res.status(400).json({ message: "employeeId is required." });
     }
 
-    // TODO: Implement Time-Out logic.
-    // (Similar to timeIn, but the type is 'time-out')
-    res.status(501).json({ message: "Not Implemented" });
+    const employeeDoc = await findEmployeeByCustomId(employeeId);
+
+    if (!employeeDoc) {
+      return res.status(404).json({ message: "Employee not found." });
+    }
+
+    const attendanceRef = employeeDoc.ref.collection("attendance");
+
+    const attendanceRecord = await attendanceRef.add({
+      type: "time-out",
+      timestamp: firestore.Timestamp.now(),
+      location: "BGC, Taguig City Office",
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "Time-Out recorded successfully.",
+      data: {
+        id: attendanceRecord.id,
+        type: "time-out",
+        location: "BGC, Taguig City Office",
+        timestamp: firestore.Timestamp.now(),
+      },
+    });
   } catch (error) {
+    console.error("Error recording time-out:", error);
+    res.status(500).json({ message: "Internal Server Error" });
     next(error);
   }
 };
@@ -68,13 +109,31 @@ export const getAttendanceRecords = async (
   try {
     const { employeeId } = req.params;
 
-    // TODO: Implement logic to get all attendance records for an employee.
-    // 1. Find the employee's document using their custom employeeId.
-    // 2. If not found, return 404.
-    // 3. Query the 'attendance' subcollection and order by timestamp.
-    // 4. Return the list of records with a 200 status.
-    res.status(501).json({ message: "Not Implemented" });
+    const employeeDoc = await findEmployeeByCustomId(employeeId);
+
+    if (!employeeDoc) {
+      return res.status(404).json({ message: "Employee not found." });
+    }
+
+    const attendanceRef = employeeDoc.ref.collection("attendance");
+
+    const attendanceSnapshot = await attendanceRef
+      .orderBy("timestamp", "desc")
+      .get();
+
+    const records = attendanceSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    res.status(200).json({
+      success: true,
+      message: "Attendance records retrieved successfully.",
+      data: records,
+    });
   } catch (error) {
+    console.error("Error fetching attendance records:", error);
+    res.status(500).json({ message: "Internal Server Error" });
     next(error);
   }
 };
