@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { getDb } from "../config/firebase";
 import { nanoid } from "nanoid";
-import { get } from "http";
 
 export const createEmployee = async (
   req: Request,
@@ -13,6 +12,19 @@ export const createEmployee = async (
 
     if (!firstName || !lastName || !email || !positionId || !departmentId) {
       return res.status(400).json({ message: "Missing required fields" });
+    }
+
+    const emailCheckSnapshot = await getDb()
+      .collection("employees")
+      .where("email", "==", email)
+      .where("isActive", "==", true)
+      .get();
+
+    if (!emailCheckSnapshot.empty) {
+      return res.status(409).json({
+        success: false,
+        message: "Email already in use by another employee",
+      });
     }
 
     const employeeId = `EMP-${nanoid(6).toUpperCase()}`;
@@ -131,6 +143,21 @@ export const updateEmployee = async (
 
     if (!employeeDoc.exists) {
       return res.status(404).json({ message: "Employee not found" });
+    }
+
+    if (updateData.email && updateData.email !== employeeDoc.data()?.email) {
+      const emailCheckSnapshot = await getDb()
+        .collection("employees")
+        .where("email", "==", updateData.email)
+        .where("isActive", "==", true)
+        .get();
+
+      if (!emailCheckSnapshot.empty) {
+        return res.status(409).json({
+          success: false,
+          message: "Email already in use by another employee",
+        });
+      }
     }
 
     await getDb().collection("employees").doc(id).update(updateData);
