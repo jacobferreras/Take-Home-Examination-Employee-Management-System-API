@@ -169,12 +169,9 @@ export const deleteEmployee = async (
 
     await getDb().collection("employees").doc(id).update({ isActive: false });
 
-    const deletedEmployee = { id: employeeDoc.id, ...employeeDoc.data() };
-
     res.status(200).json({
       success: true,
       message: "Employee deleted successfully",
-      data: deletedEmployee,
     });
   } catch (error) {
     console.error("Error deleting employee:", error);
